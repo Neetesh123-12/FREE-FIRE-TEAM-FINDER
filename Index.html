@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔥 Free Fire Ultimate Team & Player Finder ⚡</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom Colorful CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header class="main-header">
+        <div class="logo-container">
+            <i class="fa-solid fa-fire flame-icon"></i>
+            <h1>FF <span class="gradient-text">SQUAD FINDER</span></h1>
+        </div>
+        <p class="subtitle">🚀 Build Your Dream Esports Team or Find Pro Teammates Instantly!</p>
+        
+        <div class="header-buttons">
+            <button class="btn btn-neon-pink" onclick="openModal('teamModal')">
+                <i class="fa-solid fa-users-rectangle"></i> Create Team Post
+            </button>
+            <button class="btn btn-neon-cyan" onclick="openModal('playerModal')">
+                <i class="fa-solid fa-user-plus"></i> Register as Player
+            </button>
+        </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <nav class="tab-navigation">
+        <button class="tab-btn active" onclick="switchTab('teams')">
+            <i class="fa-solid fa-shield-halved"></i> Browse Teams
+        </button>
+        <button class="tab-btn" onclick="switchTab('players')">
+            <i class="fa-solid fa-crosshairs"></i> Find Players (LFG)
+        </button>
+    </nav>
+
+    <!-- Main Content Container -->
+    <main class="container">
+
+        <!-- SEARCH & FILTER BAR -->
+        <div class="filter-section">
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="searchInput" placeholder="Search by name, role, or UID..." onkeyup="filterData()">
+            </div>
+            <div class="filter-dropdown">
+                <select id="roleFilter" onchange="filterData()">
+                    <option value="">✨ All Roles</option>
+                    <option value="Rusher">🔥 Rusher</option>
+                    <option value="Sniper">🎯 Sniper</option>
+                    <option value="Support">🛡️ Support</option>
+                    <option value="IGL">👑 IGL (Leader)</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- TEAMS TAB CONTENT -->
+        <div id="teamsTab" class="tab-content active">
+            <h2 class="section-title">🏆 Active Tournament Teams</h2>
+            <div id="teamsGrid" class="grid-cards">
+                <!-- Dynamic Teams will appear here -->
+            </div>
+        </div>
+
+        <!-- PLAYERS TAB CONTENT -->
+        <div id="playersTab" class="tab-content">
+            <h2 class="section-title">⚡ Available Free Fire Players</h2>
+            <div id="playersGrid" class="grid-cards">
+                <!-- Dynamic Players will appear here -->
+            </div>
+        </div>
+    </main>
+
+    <!-- MODAL: CREATE TEAM -->
+    <div id="teamModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('teamModal')">&times;</span>
+            <h2><i class="fa-solid fa-shield-halved"></i> Create Team Recruitment</h2>
+            <form id="teamForm" onsubmit="handleTeamSubmit(event)">
+                <div class="form-group">
+                    <label>Team Name</label>
+                    <input type="text" id="teamName" required placeholder="e.g. TEAM VIPER">
+                </div>
+                <div class="form-group">
+                    <label>Looking For Roles</label>
+                    <select id="teamRole" required>
+                        <option value="Rusher">🔥 Rusher</option>
+                        <option value="Sniper">🎯 Sniper</option>
+                        <option value="Support">🛡️ Support</option>
+                        <option value="IGL">👑 IGL</option>
+                        <option value="Multiple Roles">⚡ Multiple Roles</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Required Rank / K.D</label>
+                    <input type="text" id="teamReq" required placeholder="e.g. Heroic, 3.5+ KD">
+                </div>
+                <div class="form-group">
+                    <label>WhatsApp / Discord Contact Link</label>
+                    <input type="text" id="teamContact" required placeholder="https://wa.me/91XXXXXXXXXX">
+                </div>
+                <button type="submit" class="btn btn-neon-pink full-width">Publish Team Post</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: REGISTER PLAYER -->
+    <div id="playerModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('playerModal')">&times;</span>
+            <h2><i class="fa-solid fa-user-plus"></i> Register as Free Agent</h2>
+            <form id="playerForm" onsubmit="handlePlayerSubmit(event)">
+                <div class="form-group">
+                    <label>In-Game Name (IGN)</label>
+                    <input type="text" id="playerIgn" required placeholder="e.g. ᎪᴛᎢᎥᴛᴜᎠᴇ">
+                </div>
+                <div class="form-group">
+                    <label>Free Fire UID</label>
+                    <input type="text" id="playerUid" required placeholder="e.g. 482910293">
+                </div>
+                <div class="form-group">
+                    <label>Primary Role</label>
+                    <select id="playerRole" required>
+                        <option value="Rusher">🔥 Rusher</option>
+                        <option value="Sniper">🎯 Sniper</option>
+                        <option value="Support">🛡️ Support</option>
+                        <option value="IGL">👑 IGL</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Current Rank & KD</label>
+                    <input type="text" id="playerStats" required placeholder="e.g. Grandmaster, 4.2 KD">
+                </div>
+                <div class="form-group">
+                    <label>Contact (WhatsApp / Insta ID)</label>
+                    <input type="text" id="playerContact" required placeholder="WhatsApp No or Insta handle">
+                </div>
+                <button type="submit" class="btn btn-neon-cyan full-width">Publish Player Profile</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>🔥 Free Fire Tournament Team Finder & Matchmaking Portal 2026 ⚡</p>
+    </footer>
+
+    <!-- Custom JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
